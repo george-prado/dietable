@@ -1,23 +1,25 @@
 <h1>{{ title }}</h1>
 
-<div *ngFor="let mealGroup of meal | groupBy: 'mealId'">
-  <h2>{{ mealGroup.key }}ª Refeição</h2>
+<div *ngFor="let meal of meals | keyvalue">
+  <h2>{{ meal.key }}ª Refeição</h2>
+  
   <ul>
-    <li *ngFor="let dish of mealGroup.value">
-      {{dish.dishName}} | Carbo: {{dish.carb}}g | Prot: {{dish.prot}}g | Gord: {{dish.fat}}g | Calorias: {{dish.kcal}}kcal
-      <button>Excluir</button>
+    <li *ngFor="let dish of meal.value">
+      <strong>{{ dish.dishName }}</strong> | Carbo: {{ dish.carb }}g | Proteína: {{ dish.prot }}g | Carbo: {{ dish.fat }}g | Calorias: {{ dish.kcal }}kcal 
     </li>
   </ul>
 </div>
 
 
-
 <h1>Adicione à dieta</h1>
 
 <form [formGroup]="form">
+
+  <input type="number" placeholder="Qual refeição?" formControlName="dietMealId" maxlength="40">
   <input type="text" placeholder="Digite o nome do alimento" formControlName="dietEntryName" maxlength="40">
-  <input type="number" formControlName="dietEntryCarboQuantity">
+  <input type="number" formControlName="dietEntryCarbQuantity">
   <input type="number" formControlName="dietEntryProtQuantity">
   <input type="number" formControlName="dietEntryFatQuantity">
-  <button>Adicionar</button>
+  <button (click)="add()">Adicionar</button>
+  <button (click)="clearAll()">Remover tudo</button>
 </form>
