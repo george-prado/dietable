@@ -15,7 +15,13 @@
 
 <form [formGroup]="form">
 
-  <input type="number" placeholder="Qual refeição?" formControlName="dietMealId" maxlength="40">
+  <label for="dietMealId">Qual refeição?</label>
+  <select formControlName="dietMealId" id="dietMealId">
+    <option value="1" selected default>1ª Refeição</option>
+    <option value="2">2ª refeição</option>
+    <option value="3">3ª refeição</option>
+    <option value="4">4ª refeição</option>
+  </select>
   <input type="text" placeholder="Digite o nome do alimento" formControlName="dietEntryName" maxlength="40">
   <input type="number" formControlName="dietEntryCarbQuantity">
   <input type="number" formControlName="dietEntryProtQuantity">

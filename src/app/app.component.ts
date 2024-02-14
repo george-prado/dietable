@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Dish } from '../models/dish.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { isEmpty } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       dietMealId: [
-        0, Validators.compose([
+        1, Validators.compose([
           Validators.required,
           Validators.min(1)
         ])
@@ -58,17 +59,21 @@ export class AppComponent {
   
     const id = this.dish.length + 1;
   
+    const validMacros : boolean = (carb > 0 && !isNaN(carb)) && (prot > 0 && !isNaN(prot)) && (fat > 0 && !isNaN(fat))
 
-    if (!this.meals[mealId]) {
-      this.meals[mealId] = [];
-    }
+
+    if (food.trim() !== '' && validMacros){
+      if (!this.meals[mealId]) {
+        this.meals[mealId] = [];
+      }
 
     const newDish: Dish = new Dish(id, mealId, food, carb, prot, fat, this.getKcal(carb, prot, fat));
   
-    this.meals[mealId].push(newDish);
-    this.dish.push(newDish);
+      this.meals[mealId].push(newDish);
+      this.dish.push(newDish);
   
-    this.clear();
+      this.clear();
+    }
   }
 
   getKcal(carb: number, prot: number, fat:number) {
@@ -80,11 +85,12 @@ export class AppComponent {
 
   clearAll() {
     this.dish = []
+    this.meals = {}
     this.clear;
   }
 
   clear() {
-    this.form.reset();
+    this.form.reset( { dietMealId: 1 });
   }
 }
 
